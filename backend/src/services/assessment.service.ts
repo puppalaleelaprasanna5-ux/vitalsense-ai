@@ -17,3 +17,10 @@ export async function createAssessment(userId: string, assessment: {
     },
   });
 }
+
+export async function getAssessmentHistory(userId: string) {
+  return prisma.assessment.findMany({
+    where: { userId },
+    orderBy: { createdAt: "desc" },
+  });
+}

@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { assessmentSchema } from "../validators/assessment.validator.js";
 import { createAssessment } from "../services/assessment.service.js";
+import { getAssessmentHistory } from "../services/assessment.service.js";
 
 export async function createAssessmentHandler(req: Request, res: Response) {
   try {
@@ -32,5 +33,23 @@ export async function createAssessmentHandler(req: Request, res: Response) {
       success: false,
       message: "Unable to save assessment",
     });
+  }
+}
+
+export async function getHistory(req: Request, res: Response) {
+  try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ success: false, message: "Access token required" });
+    }
+
+    const assessments = await getAssessmentHistory(req.user.id);
+
+    return res.status(200).json({
+      success: true,
+      count: assessments.length,
+      assessments,
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: "Unable to fetch assessment history" });
   }
 }
