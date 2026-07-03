@@ -3,6 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import authRoutes from "./routes/auth.routes.js";
+import assessmentRoutes from "./routes/assessment.routes.js";
 
 const app = express();
 
@@ -12,6 +13,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
+app.use("/api/assessments", assessmentRoutes);
 
 app.get("/", (req, res) => {
   res.json({ message: "VitalSense Backend Running" });
