@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import QuestionCard from "./QuestionCard";
 import ProgressBar from "./ProgressBar";
@@ -19,6 +20,7 @@ export default function AssessmentWizard(): JSX.Element {
     questions.forEach((q) => (initial[q.id] = ""));
     return initial;
   });
+  const router = useRouter();
 
   const current = questions[currentIndex];
 
@@ -40,6 +42,16 @@ export default function AssessmentWizard(): JSX.Element {
     setCurrentIndex((i) => Math.max(0, i - 1));
   }
 
+  function validateAnswers(): boolean {
+    return questions.every((question) => {
+      if (!question.required) {
+        return true;
+      }
+      const value = answers[question.id];
+      return value !== "" && value !== null && value !== undefined;
+    });
+  }
+
   function goNext() {
     const last = currentIndex === total - 1;
     if (!last) {
@@ -47,9 +59,12 @@ export default function AssessmentWizard(): JSX.Element {
       return;
     }
 
-    // Finish
-    // eslint-disable-next-line no-console
-    console.log("Assessment Answers:", answers);
+    if (!validateAnswers()) {
+      return;
+    }
+
+    sessionStorage.setItem("assessmentAnswers", JSON.stringify(answers));
+    router.push("/loading");
   }
 
   const isCurrentRequired = current.required ?? false;
@@ -113,9 +128,10 @@ export default function AssessmentWizard(): JSX.Element {
           onNext={goNext}
           disablePrev={currentIndex === 0}
           disableNext={disableNext}
-          finishLabel={currentIndex === total - 1 ? "Finish" : "Next"}
+          finishLabel={currentIndex === total - 1 ? "Analyze Health" : "Next"}
         />
       </div>
+
     </div>
   );
 }
