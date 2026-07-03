@@ -1,3 +1,4 @@
+import Link from "next/link";
 export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 border-b border-gray-200 bg-white/80 backdrop-blur-md">
@@ -12,13 +13,19 @@ export default function Navbar() {
 
         {/* Actions */}
         <div className="flex items-center gap-4">
-          <button className="text-sm font-medium text-gray-700 transition hover:text-emerald-600">
+          <Link
+            href="/login"
+            className="text-sm font-medium text-gray-700 transition hover:text-emerald-600"
+          >
             Sign In
-          </button>
+          </Link>
 
-          <button className="rounded-lg bg-emerald-600 px-5 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700">
+          <Link
+            href="/assessment"
+            className="rounded-lg bg-emerald-600 px-5 py-2 text-sm font-semibold text-white transition hover:bg-emerald-700"
+          >
             Start Assessment
-          </button>
+          </Link>
         </div>
       </div>
     </nav>
