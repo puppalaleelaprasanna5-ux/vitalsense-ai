@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { loginSchema, registerSchema } from "../validators/auth.validator.js";
-import { createUser, findUserByEmail, loginUser } from "../services/auth.service.js";
+import { createUser, findUserByEmail, loginUser, getUserById } from "../services/auth.service.js";
 import { generateToken } from "../utils/token.js";
 
 export async function register(req: Request, res: Response) {
@@ -85,5 +85,23 @@ export async function login(req: Request, res: Response) {
       success: false,
       message: "Unable to login",
     });
+  }
+}
+
+export async function getCurrentUser(req: Request, res: Response) {
+  try {
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ success: false, message: "Access token required" });
+    }
+
+    const user = await getUserById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    return res.status(200).json({ success: true, user });
+  } catch (err) {
+    return res.status(500).json({ success: false, message: "Unable to fetch user" });
   }
 }

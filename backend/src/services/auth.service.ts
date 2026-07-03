@@ -30,3 +30,14 @@ export async function loginUser(email: string, password: string) {
 
   return user;
 }
+
+export async function getUserById(id: string) {
+  return prisma.user.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+    },
+  });
+}
