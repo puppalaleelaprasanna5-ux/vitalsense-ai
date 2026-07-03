@@ -7,6 +7,7 @@ import QuestionCard from "./QuestionCard";
 import ProgressBar from "./ProgressBar";
 import NavigationButtons from "./NavigationButtons";
 import { assessmentQuestions } from "../../constants/assessment";
+import assessmentService from "@/services/assessment.service";
 
 type AnswersRecord = Record<string, string | number>;
 
@@ -63,12 +64,32 @@ export default function AssessmentWizard(): JSX.Element {
       return;
     }
 
-    sessionStorage.setItem("assessmentAnswers", JSON.stringify(answers));
-    router.push("/loading");
+    // Finalize and save assessment
+    (async () => {
+      try {
+        setIsSaving(true);
+        const payload = {
+          healthScore: 84,
+          heartRisk: 18,
+          diabetesRisk: 12,
+          answers,
+        };
+
+        await assessmentService.createAssessment(payload);
+        // On success redirect to report
+        router.push("/report");
+      } catch (err: any) {
+        setMessage(err?.response?.data?.message || err?.message || "Unable to save assessment.");
+      } finally {
+        setIsSaving(false);
+      }
+    })();
   }
 
   const isCurrentRequired = current.required ?? false;
   const disableNext = isCurrentRequired && !isAnswered(current.id);
+  const [isSaving, setIsSaving] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
 
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col px-6 py-12 sm:px-8">
@@ -123,12 +144,16 @@ export default function AssessmentWizard(): JSX.Element {
           </AnimatePresence>
         </div>
 
+        {message && (
+          <div className="mb-4 rounded-md bg-red-50 px-4 py-3 text-sm text-red-700">{message}</div>
+        )}
+
         <NavigationButtons
           onPrev={goPrev}
           onNext={goNext}
           disablePrev={currentIndex === 0}
-          disableNext={disableNext}
-          finishLabel={currentIndex === total - 1 ? "Analyze Health" : "Next"}
+          disableNext={disableNext || isSaving}
+          finishLabel={isSaving ? "Saving Assessment..." : currentIndex === total - 1 ? "Analyze Health" : "Next"}
         />
       </div>
 
