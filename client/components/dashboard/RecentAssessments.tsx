@@ -2,13 +2,21 @@
 
 import { motion } from "framer-motion";
 
-const sample = [
-  { id: '1', date: 'Today', health: 84, heart: '18%', status: 'Complete' },
-  { id: '2', date: '2026-06-28', health: 75, heart: '22%', status: 'Complete' },
-  { id: '3', date: '2026-06-10', health: 69, heart: '30%', status: 'Needs Review' },
-];
+type AssessmentItem = {
+  id: string;
+  createdAt?: string;
+  healthScore?: number;
+  heartRisk?: number | string;
+  diabetesRisk?: number | string;
+};
 
-export default function RecentAssessments() {
+export default function RecentAssessments({ assessments }: { assessments?: AssessmentItem[] }) {
+  const rows = assessments && assessments.length > 0
+    ? assessments
+    : [
+      { id: '1', createdAt: 'Today', healthScore: 84, heartRisk: '18%', diabetesRisk: '12%' },
+    ];
+
   return (
     <div className="mt-6">
       <h3 className="mb-4 text-sm font-semibold text-slate-700">Recent Assessments</h3>
@@ -24,20 +32,24 @@ export default function RecentAssessments() {
             </tr>
           </thead>
           <tbody>
-            {sample.map((row, idx) => (
-              <motion.tr
-                key={row.id}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.05 }}
-                className="border-t hover:bg-slate-50"
-              >
-                <td className="px-4 py-4 text-sm text-slate-700">{row.date}</td>
-                <td className="px-4 py-4 text-sm font-semibold text-slate-900">{row.health}</td>
-                <td className="px-4 py-4 text-sm text-slate-700">{row.heart}</td>
-                <td className="px-4 py-4 text-sm text-slate-700">{row.status}</td>
-              </motion.tr>
-            ))}
+            {rows.map((row, idx) => {
+              const date = row.createdAt ? new Date(row.createdAt).toLocaleDateString() : '—';
+              const heart = typeof row.heartRisk === 'number' ? `${row.heartRisk}%` : row.heartRisk ?? '—';
+              return (
+                <motion.tr
+                  key={row.id}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.05 }}
+                  className="border-t hover:bg-slate-50"
+                >
+                  <td className="px-4 py-4 text-sm text-slate-700">{date}</td>
+                  <td className="px-4 py-4 text-sm font-semibold text-slate-900">{row.healthScore ?? '—'}</td>
+                  <td className="px-4 py-4 text-sm text-slate-700">{heart}</td>
+                  <td className="px-4 py-4 text-sm text-slate-700">Complete</td>
+                </motion.tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
