@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { loginSchema, registerSchema } from "../validators/auth.validator";
-import { createUser, findUserByEmail } from "../services/auth.service";
-import { generateToken } from "../utils/token";
+import { loginSchema, registerSchema } from "../validators/auth.validator.js";
+import { createUser, findUserByEmail, loginUser } from "../services/auth.service.js";
+import { generateToken } from "../utils/token.js";
 
 export async function register(req: Request, res: Response) {
   try {
@@ -10,7 +10,7 @@ export async function register(req: Request, res: Response) {
     if (!parseResult.success) {
       return res.status(400).json({
         success: false,
-        message: parseResult.error.errors.map((err) => err.message).join(", "),
+        message: parseResult.error.issues.map((err: any) => err.message).join(", "),
       });
     }
 
@@ -42,6 +42,48 @@ export async function register(req: Request, res: Response) {
     return res.status(500).json({
       success: false,
       message: "Unable to create account",
+    });
+  }
+}
+
+export async function login(req: Request, res: Response) {
+  try {
+    const parseResult = loginSchema.safeParse(req.body);
+
+    if (!parseResult.success) {
+      return res.status(400).json({
+        success: false,
+        message: parseResult.error.issues.map((err: any) => err.message).join(", "),
+      });
+    }
+
+    const { email, password } = parseResult.data;
+
+    const user = await loginUser(email, password);
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "Invalid email or password",
+      });
+    }
+
+    const token = generateToken({ userId: user.id, email: user.email });
+
+    return res.status(200).json({
+      success: true,
+      message: "Login successful",
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Unable to login",
     });
   }
 }

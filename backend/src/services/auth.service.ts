@@ -1,5 +1,5 @@
-import { prisma } from "../config/prisma";
-import { hashPassword } from "../utils/hash";
+import { prisma } from "../config/prisma.js";
+import { hashPassword, comparePassword } from "../utils/hash.js";
 
 export async function findUserByEmail(email: string) {
   return prisma.user.findUnique({
@@ -17,4 +17,16 @@ export async function createUser(name: string, email: string, password: string) 
       password: hashedPassword,
     },
   });
+}
+
+export async function loginUser(email: string, password: string) {
+  const user = await prisma.user.findUnique({ where: { email } });
+
+  if (!user) return null;
+
+  const isValid = await comparePassword(password, user.password);
+
+  if (!isValid) return null;
+
+  return user;
 }
