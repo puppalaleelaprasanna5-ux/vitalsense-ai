@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, type ReactElement } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import QuestionCard from "./QuestionCard";
@@ -11,7 +11,7 @@ import assessmentService from "@/services/assessment.service";
 
 type AnswersRecord = Record<string, string | number>;
 
-export default function AssessmentWizard(): JSX.Element {
+export default function AssessmentWizard(): ReactElement {
   const questions = useMemo(() => assessmentQuestions, []);
   const total = questions.length;
 
@@ -69,9 +69,6 @@ export default function AssessmentWizard(): JSX.Element {
       try {
         setIsSaving(true);
         const payload = {
-          healthScore: 84,
-          heartRisk: 18,
-          diabetesRisk: 12,
           answers,
         };
 

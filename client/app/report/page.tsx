@@ -4,6 +4,7 @@ import { Activity, HeartPulse, Droplet, Leaf, Moon } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import AppNavbar from "@/components/layout/AppNavbar";
 import ActionButtons from "@/components/report/ActionButtons";
 import DiseaseRiskCard from "@/components/report/DiseaseRiskCard";
 import Footer from "@/components/report/Footer";
@@ -11,8 +12,6 @@ import HealthFactors from "@/components/report/HealthFactors";
 import HealthScoreCard from "@/components/report/HealthScoreCard";
 import LifestyleCard from "@/components/report/LifestyleCard";
 import OverallHealthCard from "@/components/report/OverallHealthCard";
-import ReportNavbar from "@/components/report/ReportNavbar";
-
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
 import dashboardService from "../../services/dashboard.service";
 
@@ -57,8 +56,8 @@ export default function Page() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8 xl:px-12">
-        <div className="mx-auto w-full max-w-7xl space-y-6 py-10">
+      <div className="min-h-screen bg-slate-50 px-4 py-5 sm:px-6 lg:px-8 xl:px-12">
+        <div className="mx-auto w-full max-w-6xl space-y-6 py-8">
           <div className="h-24 rounded-xl bg-white p-6 shadow-sm animate-pulse" />
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             <div className="h-28 rounded-xl bg-white p-6 shadow-sm animate-pulse" />
@@ -73,8 +72,8 @@ export default function Page() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-slate-50 px-4 py-8">
-        <div className="mx-auto max-w-4xl">
+      <div className="min-h-screen bg-slate-50 px-4 py-6">
+        <div className="mx-auto max-w-6xl">
           <div className="rounded-xl bg-red-50 p-6">
             <h3 className="text-lg font-semibold text-red-700">Unable to load assessment report.</h3>
             <p className="mt-2 text-sm text-red-600">{error}</p>
@@ -87,8 +86,8 @@ export default function Page() {
   if (!assessment) {
     return (
       <ProtectedRoute>
-        <main className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6 lg:px-8 xl:px-12">
-          <div className="mx-auto w-full max-w-4xl rounded-xl bg-white p-6 shadow-sm">
+        <main className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8 xl:px-12">
+          <div className="mx-auto w-full max-w-6xl rounded-xl bg-white p-6 shadow-sm">
             <h1 className="text-3xl font-bold text-slate-900">No assessment available</h1>
             <p className="mt-4 text-sm text-slate-600">Start an assessment to generate your personalized health report.</p>
             <button onClick={() => router.push('/assessment')} className="mt-6 inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-3 text-sm font-semibold text-white shadow">
@@ -104,9 +103,11 @@ export default function Page() {
 
   return (
     <ProtectedRoute>
-      <main className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8 xl:px-12">
-        <ReportNavbar />
-        <div className="mx-auto w-full max-w-7xl space-y-12 pt-8 sm:pt-10 lg:pt-14">
+      <main className="min-h-screen bg-slate-50 px-4 py-5 sm:px-6 lg:px-8 xl:px-12">
+        <div className="mx-auto w-full max-w-6xl">
+          <AppNavbar />
+        </div>
+        <div className="mx-auto w-full max-w-6xl space-y-10 pt-6 sm:pt-8 lg:pt-10">
           <motion.section
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}

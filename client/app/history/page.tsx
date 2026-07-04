@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import AppNavbar from "../../components/layout/AppNavbar";
 import dashboardService from "../../services/dashboard.service";
 
 function riskStatusFromScore(score?: number) {
@@ -46,8 +47,8 @@ export default function HistoryPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-slate-50 px-4 py-8">
-        <div className="mx-auto max-w-4xl">
+      <div className="min-h-screen bg-slate-50 px-4 py-6">
+        <div className="mx-auto max-w-6xl">
           <div className="space-y-4">
             {[1, 2, 3].map((i) => (
               <div key={i} className="animate-pulse">
@@ -62,8 +63,8 @@ export default function HistoryPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-slate-50 px-4 py-8">
-        <div className="mx-auto max-w-4xl">
+      <div className="min-h-screen bg-slate-50 px-4 py-6">
+        <div className="mx-auto max-w-6xl">
           <div className="rounded-xl bg-red-50 p-6">
             <h3 className="text-lg font-semibold text-red-700">Unable to load assessment history.</h3>
             <p className="mt-2 text-sm text-red-600">{error}</p>
@@ -74,8 +75,9 @@ export default function HistoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 px-4 py-8">
-      <div className="mx-auto max-w-4xl">
+    <div className="min-h-screen bg-slate-50 px-4 py-6">
+      <div className="mx-auto max-w-6xl">
+        <AppNavbar />
         <h1 className="mb-6 text-2xl font-bold text-slate-900">Assessment History</h1>
 
         {assessments.length === 0 ? (

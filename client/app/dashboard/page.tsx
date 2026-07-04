@@ -7,6 +7,7 @@ import TopNav from "../../components/dashboard/TopNav";
 import HealthCard from "../../components/dashboard/HealthCard";
 import QuickActions from "../../components/dashboard/QuickActions";
 import RecentAssessments from "../../components/dashboard/RecentAssessments";
+import AppNavbar from "../../components/layout/AppNavbar";
 import dashboardService from "../../services/dashboard.service";
 
 
@@ -49,11 +50,12 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <div className="mx-auto max-w-7xl px-4 py-8 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 py-6 lg:px-8">
         <div className="flex">
           <Sidebar />
 
           <main className="flex-1">
+            <AppNavbar currentUserName={userName} />
             <TopNav userName={userName} />
 
             {loading ? (

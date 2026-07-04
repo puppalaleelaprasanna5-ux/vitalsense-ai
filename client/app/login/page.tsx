@@ -41,7 +41,7 @@ export default function LoginPage() {
       }
       setMessageType("success");
       setMessage("Login successful");
-      setTimeout(() => router.push("/report"), 500);
+      setTimeout(() => router.push("/dashboard"), 500);
     } catch (error: any) {
       const backendMessage =
         error?.response?.data?.message || error?.message || "Unable to sign in.";

@@ -1,9 +1,9 @@
 import api from "../lib/api";
 
 export interface AssessmentPayload {
-  healthScore: number;
-  heartRisk: number;
-  diabetesRisk: number;
+  healthScore?: number;
+  heartRisk?: number;
+  diabetesRisk?: number;
   answers: Record<string, any>;
 }
 
