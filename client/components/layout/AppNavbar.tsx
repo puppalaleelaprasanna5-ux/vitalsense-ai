@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import authService from "@/services/auth.service";
 
@@ -17,6 +17,7 @@ const navItems = [
 
 export default function AppNavbar({ currentUserName }: AppNavbarProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const [userName, setUserName] = useState(currentUserName ?? "User");
 
   useEffect(() => {
@@ -37,6 +38,11 @@ export default function AppNavbar({ currentUserName }: AppNavbarProps) {
 
     loadUserName();
   }, [currentUserName]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    router.push("/login");
+  };
 
   return (
     <nav className="mb-6 rounded-2xl border border-slate-200 bg-white/90 px-4 py-4 shadow-sm backdrop-blur sm:px-6">
@@ -69,6 +75,7 @@ export default function AppNavbar({ currentUserName }: AppNavbarProps) {
           <div className="text-sm font-medium text-slate-700">{userName}</div>
           <button
             type="button"
+            onClick={handleLogout}
             className="inline-flex items-center justify-center rounded-full border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50"
           >
             Logout
