@@ -14,29 +14,93 @@ import OverallHealthCard from "@/components/report/OverallHealthCard";
 import ReportNavbar from "@/components/report/ReportNavbar";
 
 import ProtectedRoute from "@/components/auth/ProtectedRoute";
+import dashboardService from "../../services/dashboard.service";
+
+function riskStatusFromScore(score?: number) {
+  if (typeof score !== "number") return { label: "Unknown", color: "bg-slate-200 text-slate-700" };
+  if (score >= 80) return { label: "Low Risk", color: "bg-emerald-100 text-emerald-700" };
+  if (score >= 50) return { label: "Moderate Risk", color: "bg-amber-100 text-amber-700" };
+  return { label: "High Risk", color: "bg-red-100 text-red-700" };
+}
 
 export default function Page() {
   const router = useRouter();
-  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [assessment, setAssessment] = useState<any>(null);
 
   useEffect(() => {
-    const stored = sessionStorage.getItem("assessmentAnswers");
-    if (!stored) {
-      router.replace("/");
-      return;
+    let mounted = true;
+
+    async function loadAssessment() {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await dashboardService.getAssessmentHistory();
+        const items = res?.assessments ?? [];
+        items.sort((a: any, b: any) => (new Date(b.createdAt).getTime() || 0) - (new Date(a.createdAt).getTime() || 0));
+        if (!mounted) return;
+        setAssessment(items[0] ?? null);
+      } catch (err: any) {
+        if (!mounted) return;
+        setError(err?.response?.data?.message || err?.message || "Unable to load assessment report.");
+      } finally {
+        if (mounted) setLoading(false);
+      }
     }
 
-    try {
-      JSON.parse(stored);
-      setIsAuthorized(true);
-    } catch {
-      router.replace("/");
-    }
-  }, [router]);
+    loadAssessment();
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
-  if (!isAuthorized) {
-    return null;
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6 lg:px-8 xl:px-12">
+        <div className="mx-auto w-full max-w-7xl space-y-6 py-10">
+          <div className="h-24 rounded-xl bg-white p-6 shadow-sm animate-pulse" />
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="h-28 rounded-xl bg-white p-6 shadow-sm animate-pulse" />
+            <div className="h-28 rounded-xl bg-white p-6 shadow-sm animate-pulse" />
+            <div className="h-28 rounded-xl bg-white p-6 shadow-sm animate-pulse" />
+            <div className="h-28 rounded-xl bg-white p-6 shadow-sm animate-pulse" />
+          </div>
+        </div>
+      </div>
+    );
   }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-slate-50 px-4 py-8">
+        <div className="mx-auto max-w-4xl">
+          <div className="rounded-xl bg-red-50 p-6">
+            <h3 className="text-lg font-semibold text-red-700">Unable to load assessment report.</h3>
+            <p className="mt-2 text-sm text-red-600">{error}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!assessment) {
+    return (
+      <ProtectedRoute>
+        <main className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6 lg:px-8 xl:px-12">
+          <div className="mx-auto w-full max-w-4xl rounded-xl bg-white p-6 shadow-sm">
+            <h1 className="text-3xl font-bold text-slate-900">No assessment available</h1>
+            <p className="mt-4 text-sm text-slate-600">Start an assessment to generate your personalized health report.</p>
+            <button onClick={() => router.push('/assessment')} className="mt-6 inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-5 py-3 text-sm font-semibold text-white shadow">
+              Start Assessment
+            </button>
+          </div>
+        </main>
+      </ProtectedRoute>
+    );
+  }
+
+  const status = riskStatusFromScore(assessment.healthScore);
 
   return (
     <ProtectedRoute>
@@ -63,7 +127,7 @@ export default function Page() {
             transition={{ duration: 0.5, ease: "easeOut", delay: 0.05 }}
             className="grid gap-8 xl:grid-cols-[0.9fr_1.4fr]"
           >
-            <HealthScoreCard />
+            <HealthScoreCard score={assessment.healthScore} />
             <OverallHealthCard />
           </motion.div>
 
@@ -87,15 +151,15 @@ export default function Page() {
               <div className="grid gap-6 md:grid-cols-2">
                 <DiseaseRiskCard
                   title="Heart Disease"
-                  risk={18}
-                  status="Low Risk"
+                  risk={assessment.heartRisk ?? 0}
+                  status={assessment.heartRisk >= 50 ? "High Risk" : assessment.heartRisk >= 25 ? "Moderate Risk" : "Low Risk"}
                   color="bg-emerald-600"
                   icon={HeartPulse}
                 />
                 <DiseaseRiskCard
                   title="Diabetes"
-                  risk={12}
-                  status="Very Low Risk"
+                  risk={assessment.diabetesRisk ?? 0}
+                  status={assessment.diabetesRisk >= 50 ? "High Risk" : assessment.diabetesRisk >= 25 ? "Moderate Risk" : "Low Risk"}
                   color="bg-emerald-600"
                   icon={Activity}
                 />

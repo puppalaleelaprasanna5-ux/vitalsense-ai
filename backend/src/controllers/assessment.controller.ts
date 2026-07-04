@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { assessmentSchema } from "../validators/assessment.validator.js";
 import { createAssessment } from "../services/assessment.service.js";
 import { getAssessmentHistory } from "../services/assessment.service.js";
+import { predictHeart, predictDiabetes } from "../ml/predict.service.js";
 
 export async function createAssessmentHandler(req: Request, res: Response) {
   try {
@@ -21,11 +22,34 @@ export async function createAssessmentHandler(req: Request, res: Response) {
       });
     }
 
-    const assessment = await createAssessment(req.user.id, parseResult.data);
+    let heartPrediction;
+    let diabetesPrediction;
+
+    try {
+      heartPrediction = await predictHeart(parseResult.data.answers);
+      diabetesPrediction = await predictDiabetes(parseResult.data.answers);
+    } catch (error) {
+      console.error(error);
+
+      return res.status(500).json({
+        success: false,
+        message: error instanceof Error ? error.message : "Machine Learning prediction failed",
+      });
+    }
+
+    const heartRisk = Number(heartPrediction.riskPercentage ?? 0);
+    const diabetesRisk = Number(diabetesPrediction.riskPercentage ?? 0);
+    const healthScore = Math.max(0, Math.min(100, 100 - (heartRisk + diabetesRisk) / 2));
+
+    const assessment = await createAssessment(req.user.id, {
+      ...parseResult.data,
+      heartRisk,
+      diabetesRisk,
+      healthScore,
+    });
 
     return res.status(201).json({
       success: true,
-      message: "Assessment saved successfully",
       assessment,
     });
   } catch (error) {

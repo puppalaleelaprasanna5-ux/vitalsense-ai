@@ -3,16 +3,19 @@
 import { animate, motion, useMotionValue } from "framer-motion";
 import { useEffect, useState } from "react";
 
-const score = 84;
-const circumference = 2 * Math.PI * 54;
-const dashOffset = circumference * (1 - score / 100);
+interface HealthScoreCardProps {
+  score?: number;
+}
 
-export default function HealthScoreCard() {
+export default function HealthScoreCard({ score }: HealthScoreCardProps) {
+  const safeScore = typeof score === "number" ? score : 84;
   const progress = useMotionValue(0);
   const [displayScore, setDisplayScore] = useState(0);
+  const circumference = 2 * Math.PI * 54;
+  const dashOffset = circumference * (1 - safeScore / 100);
 
   useEffect(() => {
-    const controls = animate(progress, score, {
+    const controls = animate(progress, safeScore, {
       duration: 1.2,
       ease: "easeOut",
       onUpdate(value) {
@@ -21,7 +24,7 @@ export default function HealthScoreCard() {
     });
 
     return () => controls.stop();
-  }, [progress]);
+  }, [progress, safeScore]);
 
   return (
     <motion.section
@@ -54,14 +57,15 @@ export default function HealthScoreCard() {
             />
           </svg>
 
-          <div className="absolute inset-0 flex flex-col items-center justify-center">            <div className="text-5xl font-semibold tracking-tight text-slate-950 sm:text-6xl">{displayScore}</div>
+          <div className="absolute inset-0 flex flex-col items-center justify-center">
+            <div className="text-5xl font-semibold tracking-tight text-slate-950 sm:text-6xl">{displayScore}</div>
             <div className="mt-1 text-sm uppercase tracking-[0.3em] text-slate-500">Score</div>
           </div>
         </div>
 
         <div className="space-y-2">
           <div className="text-xl font-semibold text-slate-900">Health Score</div>
-          <div className="text-sm text-slate-500">{score} / 100</div>
+          <div className="text-sm text-slate-500">{safeScore} / 100</div>
           <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700">
             <span aria-hidden="true">🟢</span>
             Excellent
