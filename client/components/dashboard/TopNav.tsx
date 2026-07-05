@@ -3,7 +3,11 @@
 import { User } from "lucide-react";
 import { useEffect, useState } from "react";
 
-export default function TopNav({ userName = "User" }: { userName?: string }) {
+export default function TopNav({
+  userName = "User",
+}: {
+  userName?: string;
+}) {
   const [today, setToday] = useState("");
 
   useEffect(() => {
@@ -17,25 +21,31 @@ export default function TopNav({ userName = "User" }: { userName?: string }) {
   }, []);
 
   return (
-    <header className="mb-6 flex items-center justify-between">
+    <header className="mb-2 flex items-center justify-between">
       <div>
-        <h2 className="text-lg font-semibold text-slate-900">
-          Welcome back,
+        <h2 className="text-[34px] font-bold tracking-tight text-slate-900">
+          Welcome back,{" "}
+          <span className="text-emerald-600">{userName}</span>
         </h2>
 
-        <p className="text-2xl font-bold tracking-tight text-slate-900">
-          {userName}
-        </p>
-
-        <p className="mt-1 text-sm text-slate-500">
+        <p className="mt-0.5 text-sm text-slate-500">
           {today}
         </p>
       </div>
 
-      <div className="flex items-center gap-3">
-        <div className="hidden items-center gap-3 rounded-full bg-slate-50 px-3 py-1 text-sm text-slate-700 sm:flex">
-          <User className="h-5 w-5 text-slate-600" />
-          <span className="font-medium">{userName}</span>
+      <div className="hidden items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm md:flex">
+        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-100">
+          <User className="h-4 w-4 text-emerald-600" />
+        </div>
+
+        <div>
+          <p className="text-[11px] text-slate-500">
+            Logged in as
+          </p>
+
+          <p className="text-sm font-semibold text-slate-900">
+            {userName}
+          </p>
         </div>
       </div>
     </header>

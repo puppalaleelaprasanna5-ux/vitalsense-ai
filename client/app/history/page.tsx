@@ -75,10 +75,10 @@ export default function HistoryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 px-4 py-6">
+    <div className="min-h-screen bg-slate-50 px-4 py-4">
       <div className="mx-auto max-w-6xl">
         <AppNavbar />
-        <h1 className="mb-6 text-2xl font-bold text-slate-900">Assessment History</h1>
+        <h1 className="mb-4 text-2xl font-bold text-slate-900">Assessment History</h1>
 
         {assessments.length === 0 ? (
           <div className="rounded-xl bg-white p-6 text-center shadow-sm">
@@ -89,7 +89,7 @@ export default function HistoryPage() {
             </button>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {assessments.map((a: any, idx: number) => {
               const date = a.createdAt ? new Date(a.createdAt).toLocaleString() : '—';
               const status = riskStatusFromScore(a.healthScore);
@@ -99,7 +99,7 @@ export default function HistoryPage() {
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.03 }}
-                  className="flex flex-col rounded-xl bg-white p-4 shadow-sm sm:flex-row sm:items-center"
+                  className="flex flex-col rounded-xl bg-white p-2.5 shadow-sm sm:flex-row sm:items-center"
                 >
                   <div className="flex-1">
                     <div className="flex items-center justify-between">
@@ -114,10 +114,10 @@ export default function HistoryPage() {
                       </div>
                     </div>
 
-                    <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                    <div className="mt-3 grid gap-2 sm:grid-cols-3">
                       <div>
                         <p className="text-sm font-medium text-slate-500">Health Score</p>
-                        <p className="mt-1 text-lg font-semibold text-slate-900">{a.healthScore ?? '—'}</p>
+                        <p className="mt-1 text-base font-semibold text-slate-900">{a.healthScore ?? '—'}</p>
                       </div>
 
                       <div>
@@ -132,8 +132,8 @@ export default function HistoryPage() {
                     </div>
                   </div>
 
-                  <div className="mt-4 flex items-center gap-3 sm:mt-0 sm:ml-6">
-                    <button onClick={() => router.push('/report')} className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow">
+                  <div className="mt-3 flex items-center gap-2 sm:mt-0 sm:ml-4">
+                    <button onClick={() => router.push('/report')} className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-3 py-1 text-sm font-semibold text-white shadow">
                       View Report
                     </button>
                   </div>

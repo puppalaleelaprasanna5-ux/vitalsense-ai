@@ -15,17 +15,17 @@ export default function OverallHealthCard() {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="rounded-3xl border border-slate-200 bg-white p-8 shadow-[0_20px_50px_-20px_rgba(15,23,42,0.12)]"
+      className="rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_20px_50px_-20px_rgba(15,23,42,0.12)]"
     >
-      <div className="space-y-6">
+      <div className="space-y-4">
         <div>
           <p className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-500">
             Overall Health Status
           </p>
-          <div className="mt-4 rounded-[2rem] bg-gradient-to-br from-emerald-50 via-slate-100 to-white p-5 shadow-sm shadow-emerald-100">
+          <div className="mt-4 rounded-[2rem] bg-gradient-to-br from-emerald-50 via-slate-100 to-white p-4 shadow-sm shadow-emerald-100">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center gap-3">
-                <span className="inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-emerald-100 text-emerald-700 shadow-sm">
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-3xl bg-emerald-100 text-emerald-700 shadow-sm">
                   🟢
                 </span>
                 <div>

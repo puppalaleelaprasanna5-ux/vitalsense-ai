@@ -107,17 +107,17 @@ export default function Page() {
         <div className="mx-auto w-full max-w-6xl">
           <AppNavbar />
         </div>
-        <div className="mx-auto w-full max-w-6xl space-y-10 pt-6 sm:pt-8 lg:pt-10">
+        <div className="mx-auto w-full max-w-6xl space-y-6 pt-4">
           <motion.section
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
             className="text-center"
           >
-            <h1 className="text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl">
+            <h1 className="text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">
               Health Assessment Report
             </h1>
-            <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
+            <p className="mx-auto mt-2 max-w-xl text-base leading-7 text-slate-600 sm:text-lg">
               Personalized insights based on your assessment.
             </p>
           </motion.section>
@@ -126,7 +126,7 @@ export default function Page() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut", delay: 0.05 }}
-            className="grid gap-8 xl:grid-cols-[0.9fr_1.4fr]"
+            className="grid gap-5 xl:grid-cols-[0.9fr_1.4fr]"
           >
             <HealthScoreCard score={assessment.healthScore} />
             <OverallHealthCard />
@@ -136,7 +136,7 @@ export default function Page() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut", delay: 0.1 }}
-            className="rounded-3xl border border-slate-200 bg-white p-8 shadow-lg shadow-slate-200/40"
+            className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg shadow-slate-200/40"
           >
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -149,7 +149,7 @@ export default function Page() {
                 </div>
               </div>
 
-              <div className="grid gap-6 md:grid-cols-2">
+              <div className="grid gap-4 md:grid-cols-2">
                 <DiseaseRiskCard
                   title="Heart Disease"
                   risk={assessment.heartRisk ?? 0}
@@ -172,7 +172,7 @@ export default function Page() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut", delay: 0.15 }}
-            className="rounded-3xl border border-slate-200 bg-white p-8 shadow-lg shadow-slate-200/40"
+            className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg shadow-slate-200/40"
           >
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -185,7 +185,7 @@ export default function Page() {
                 </div>
               </div>
 
-              <div className="grid gap-6 md:grid-cols-2">
+              <div className="grid gap-4 md:grid-cols-2">
                 <LifestyleCard
                   icon={Leaf}
                   title="Diet"

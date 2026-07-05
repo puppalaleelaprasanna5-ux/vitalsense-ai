@@ -12,9 +12,9 @@ export default function ActionButtons() {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="rounded-3xl border border-slate-200 bg-white p-8 shadow-lg shadow-slate-200/40"
+      className="rounded-3xl border border-slate-200 bg-white p-6 shadow-lg shadow-slate-200/40"
     >
-      <div className="space-y-6">
+      <div className="space-y-4">
         <div className="space-y-2">
           <div className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.24em] text-slate-700">
             <ArrowLeft className="h-4 w-4 text-emerald-600" />
@@ -27,7 +27,7 @@ export default function ActionButtons() {
         <div className="grid gap-4 sm:grid-cols-2">
           <motion.button
             whileHover={{ scale: 1.02 }}
-            className="inline-flex items-center justify-center gap-3 rounded-full bg-slate-950 px-6 py-4 text-sm font-semibold text-white transition duration-200 hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+            className="inline-flex items-center justify-center gap-3 rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white transition duration-200 hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
             type="button"
             onClick={() => router.push("/assessment")}
           >

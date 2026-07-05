@@ -31,10 +31,10 @@ export default function HealthScoreCard({ score }: HealthScoreCardProps) {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.55, ease: "easeOut" }}
-      className="rounded-3xl border border-slate-200 bg-white p-8 shadow-[0_20px_60px_-20px_rgba(15,23,42,0.12)]"
+      className="rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_20px_60px_-20px_rgba(15,23,42,0.12)]"
     >
-      <div className="flex flex-col items-center gap-6 text-center">
-        <div className="relative flex h-48 w-48 items-center justify-center rounded-full bg-slate-50">
+      <div className="flex flex-col items-center gap-4 text-center">
+        <div className="relative flex h-40 w-40 items-center justify-center rounded-full bg-slate-50">
           <svg className="h-full w-full" viewBox="0 0 124 124" role="img" aria-label="Health score progress">
             <defs>
               <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -58,7 +58,7 @@ export default function HealthScoreCard({ score }: HealthScoreCardProps) {
           </svg>
 
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <div className="text-5xl font-semibold tracking-tight text-slate-950 sm:text-6xl">{displayScore}</div>
+            <div className="text-5xl font-semibold tracking-tight text-slate-950 sm:text-5xl">{displayScore}</div>
             <div className="mt-1 text-sm uppercase tracking-[0.3em] text-slate-500">Score</div>
           </div>
         </div>

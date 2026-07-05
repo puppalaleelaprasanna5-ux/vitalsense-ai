@@ -89,19 +89,19 @@ export default function AssessmentWizard(): ReactElement {
   const [message, setMessage] = useState<string | null>(null);
 
   return (
-    <div className="mx-auto flex w-full max-w-3xl flex-col px-6 py-12 sm:px-8">
-      <div className="mx-auto w-full rounded-2xl bg-white p-6 shadow-md">
+    <div className="mx-auto flex w-full max-w-4xl flex-col px-4 py-4">
+      <div className="mx-auto w-full rounded-2xl bg-white p-5 shadow-sm">
         <div className="mb-4 flex items-center justify-between">
           <h3 className="text-lg font-semibold text-slate-900">VitalSense AI</h3>
         </div>
 
-        <div className="mb-5">
+        <div className="mb-4">
           <ProgressBar current={currentIndex} total={total} />
         </div>
 
-        <div className="mb-4 text-sm text-slate-500">Question {currentIndex + 1} of {total}</div>
+        <div className="mb-3 text-sm text-slate-500">Question {currentIndex + 1} of {total}</div>
 
-        <div className="min-h-[200px]">
+        <div className="min-h-[170px]">
           <AnimatePresence mode="wait">
             <motion.div
               key={current.id}
@@ -121,18 +121,18 @@ export default function AssessmentWizard(): ReactElement {
                 />
               ) : (
                 <div className="w-full">
-                  <div className="mb-4">
-                    <h2 className="text-2xl font-semibold text-slate-900">{current.title}</h2>
-                    {current.description && <p className="mt-2 text-sm text-slate-500">{current.description}</p>}
+                  <div className="mb-3">
+                    <h2 className="text-xl font-semibold text-slate-900">{current.title}</h2>
+                    {current.description && <p className="mt-4 text-sm text-slate-500">{current.description}</p>}
                   </div>
 
-                  <div className="mt-6 max-w-sm">
+                  <div className="mt-4 max-w-sm">
                     <input
                       inputMode="numeric"
                       value={answers[current.id] === "" ? "" : String(answers[current.id])}
                       onChange={(e) => handleNumberChange(e.target.value)}
                       placeholder={current.placeholder ?? ""}
-                      className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-lg placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-400"
+                      className="w-full rounded-xl border border-slate-200 px-4 py-2.5 text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-400"
                     />
                   </div>
                 </div>

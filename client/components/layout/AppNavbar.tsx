@@ -60,8 +60,8 @@ export default function AppNavbar({ currentUserName }: AppNavbarProps) {
                   key={item.href}
                   href={item.href}
                   className={`rounded-full px-3 py-2 text-sm font-medium transition ${isActive
-                      ? "bg-emerald-600 text-white shadow-sm"
-                      : "text-slate-700 hover:bg-slate-100 hover:text-slate-900"
+                    ? "bg-emerald-600 text-white shadow-sm"
+                    : "text-slate-700 hover:bg-slate-100 hover:text-slate-900"
                     }`}
                 >
                   {item.label}

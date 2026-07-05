@@ -18,7 +18,7 @@ export default function DiseaseRiskCard({ title, risk, status, color, icon: Icon
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -4, boxShadow: "0 20px 50px rgba(15,23,42,0.08)" }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm shadow-slate-200/30"
+      className="rounded-3xl border border-slate-200 bg-white p-5 shadow-sm shadow-slate-200/30"
     >
       <div className="flex items-center gap-4">
         <div className="flex h-12 w-12 items-center justify-center rounded-3xl bg-slate-100 text-slate-900">
@@ -30,10 +30,10 @@ export default function DiseaseRiskCard({ title, risk, status, color, icon: Icon
         </div>
       </div>
 
-      <div className="mt-8 space-y-4">
+      <div className="mt-5 space-y-4">
         <div className="flex items-end justify-between gap-4">
-          <p className="text-5xl font-semibold tracking-tight text-slate-950">{risk}%</p>
-          <span className={`rounded-full px-4 py-2 text-sm font-semibold text-white ${color}`}>{status}</span>
+          <p className="text-4xl font-semibold tracking-tight text-slate-950">{risk}%</p>
+          <span className={`rounded-full px-3 py-1.5 text-sm font-semibold text-white ${color}`}>{status}</span>
         </div>
 
         <div className="rounded-full bg-slate-100 p-1">
